@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  nginx:
+    build: 
+      context: .
+      dockerfile: nginx.dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - /c/Users/¨PC/desktop/php/testProject/src/public:/var/www/html/public
+    depends_on:
+      - mysql
+      - php
+  mysql:
+    image: mariadb:10.5
+    ports:
+      - 3308:3306
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./mysql:/var/lib/mysql
+  php:
+    build: 
+      context: .
+      dockerfile: php.dockerfile
+    volumes:
+      - ./src:/var/www/html
